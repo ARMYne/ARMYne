@@ -1,0 +1,228 @@
+<html>
+    <head>
+        <title> ARMYne </title>
+        <link rel="icon" type="image/x-icon" href="https://picsum.photos/id/54/1000/1200">
+    <style>
+        * { box-sizing: border-box; }
+
+/* FlipBook */
+
+body {
+  /* or any other parent wrapper */
+  margin: 0;
+  display: flex;
+  min-height: 100dvh;
+  perspective: 1000px;
+  font-family: luminari, fantasy;
+  overflow: hidden;
+  color: hsl(264, 100%, 3%);
+  background-image: radial-gradient(circle farthest-corner at 50% 50%, hsl(175, 21%, 88%) 30%, hsl(0, 0%, 60%) 100%);
+}
+
+.book {
+  position: relative;
+  display: flex;
+  margin: auto;
+  width: 40cqmin;
+  /*1* let pointer event go trough pages of lower Z than .book */
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transition: translate 1s;
+  translate: calc(min(var(--c), 1) * 50%) 0%;
+  /* Incline on the X axis for pages preview */
+  rotate: 1 0 0 15deg;
+}
+
+.page {
+  /* PS: Don't go below thickness 0.5 or the pages might transpare */
+  --thickness: 4;
+  flex: none;
+  display: flex;
+  width: 100%;
+  font-size: 2cqmin;
+  /*1* allow pointer events on pages */
+  pointer-events: all;
+  user-select: none;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition:
+    transform 1s,
+    rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+  translate: calc(var(--i) * -100%) 0px 0px;
+  transform: translateZ( calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * .23cqmin)));
+  rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+}
+
+.front,
+.back {
+  position: relative;
+  flex: none;
+  width: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background-color: #ff7d7d;
+  /* Fix backface visibility Firefox: */
+  translate: 0px;
+}
+
+.back {
+  translate: -100% 0;
+  rotate: 0 1 0 180deg;
+}
+
+
+/* That's it. Your FlipBook customization styles: */
+
+.book {
+  counter-reset: page -1;
+  & a {
+    color: #ff7d7d;
+  }
+}
+
+.page {
+  box-shadow: 0em .5em 1em -.2em #00000020;
+}
+
+.front,
+.back {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  padding: 2em;
+  border: 1px solid #0002;
+  
+  &:has(img) {
+    padding: 0;
+  }
+  
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  &::after {
+    position: absolute;
+    bottom: 1em;
+    counter-increment: page;
+    content: counter(page) ".";
+    font-size: 0.8em;
+  }
+}
+.cover {
+  &::after {
+    content: "";
+  }
+}
+.front {
+  &::after {
+    right: 1em;
+  }
+  background-image: linear-gradient(to left, #f7f7f7 80%, #eee 100%);
+  border-radius: .1em .5em .5em .1em;
+}
+.back {
+  &::after {
+    left: 1em;
+  }
+  background-image: linear-gradient(to right, #f7f7f7 80%, #eee 100%);
+  border-radius: .5em .1em .1em .5em;
+}
+
+.cover {
+  background: radial-gradient(circle farthest-corner at 80% 20%, hsla(150, 95%, 86%, 0.3) 0%, hsl(170 60% 10% / .1) 100%),
+    hsl(231, 32%, 29%) url("https://picsum.photos/id/54/1000/1200") 80% / cover;
+  color: hsl(0, 0%, 98%);
+  text-shadow: 0 0 3px #000000, 0 0 5px #0000FF;
+}
+    </style>
+    </head>
+    <body>
+    <div class="book">
+    <div class="page">
+      <div class="front cover">
+        <p>
+            <h1>ARMYne</h1>
+            <h2>Chapter In highlight - 
+            Right Place Wrong Person</h2>
+        </p>
+        <p>2013 - Forever<br>Only edition</p>
+      </div>
+      <div class="back">
+        <img src="https://ibighit.com/bts/images/bts/discography/rm/rpwp/img-main.jpg" alt="Img 1">
+      </div>
+    </div>
+  
+    <div class="page" style="background-color: antiquewhite;">
+      <div class="front">
+        <h2>Right Places</h2>
+        <p>Right Places for us to be right now are</p>
+        <h6>
+            <a href="https://music.youtube.com/channel/UCJCAlMsCuld3v96t-9SffdA?si=PTb7NNXF9l2lclpZ">Youtube Music </a>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            <a href="https://open.spotify.com/artist/2auC28zjQyVTsiZKNgPRGs?si=W_2VrzWYQUW7WsaYD2xqyA">Spotify</a>
+        </h6>
+        <h6>
+            <a href="https://music.apple.com/us/artist/rm/1439549457">Apple Music </a>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+            <a href="https://www.amazon.com/music/player/artists/B0014S12LI/rm">Amazon Music</a>
+        </h6>
+      </div>
+      <div class="back"  style="background-color: #ff7d7d;">
+        <center><h2>Right Person</h2>
+        <img src="https://pbs.twimg.com/media/GMohJMyakAAuvBa?format=jpg&name=large" alt="QR By @notsakshihere on X" style="height: 200px; width: 200px;">
+        <br>
+        <br>
+        Let's do it for the right person!
+        </h4></center>
+      </div>
+    </div>
+  
+    <div class="page">
+      <div class="front">
+        <img src="https://ibighit.com/bts/images/bts/discography/rm/rpwp/photo/image_03.jpg" alt="Namjoon Meets Hobi">
+      </div>
+      <div class="back">
+        <img src="https://ibighit.com/bts/images/bts/discography/rm/rpwp/photo2/image_03.jpg" alt="Boyfriend Namjoon-2">
+      </div>
+    </div>
+  
+    
+  
+    <div class="page">
+      <div class="front">
+        <h1>Come Back to Me</h1>
+        <p>The First Pre Release single is coming out on 10th May, 2024. Pre save it at 
+            <br><a href="https://presave.umusic.com/rightplacewrongperson/email">Pre save RPWP</a>
+        </p>
+        <p>
+            <br>Come Back To Me CD is also available for US army, get it at - 
+            <br><a href="https://shop.bts-official.us/products/come-back-to-me-single-cd?utm_source=dotmailer&utm_medium=email&utm_campaign=507321_04.30.24_RM_Come%20Back%20to%20Me%20Single%20CD_Full_338179_US&dm_i=78XV,AVG9,34EJKD,1L0B1,1"> Pre - Order at</a>
+        </p>
+      </div>
+      <div class="back cover">
+        <h3>More chapters to be added soon</h3>
+        <p>Follow the official spotify to be a part of this journey<br><a href="https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX?si=O65AlwdxQTCCOLkfmXyuVw">BTS</a>
+        <br>For any communication regarding this<br><a href="mailto: ar0myn0mine@gmail.com" target="_blank" rel="nofollow">Gmail</a>
+        <br>Images by: picsum.photos & BigHit Music</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const flipBook = (elBook) => {
+  elBook.style.setProperty("--c", 0); // Set current page
+  elBook.querySelectorAll(".page").forEach((page, idx) => {
+    page.style.setProperty("--i", idx);
+    page.addEventListener("click", (evt) => {
+      if (evt.target.closest("a")) return;
+      const curr = evt.target.closest(".back") ? idx : idx + 1;
+      elBook.style.setProperty("--c", curr);
+    });
+  });
+};
+
+document.querySelectorAll(".book").forEach(flipBook);
+  </script>
+</body>
+</html>
